@@ -12,7 +12,7 @@ class WikiServiceProvider extends ServiceProvider
     private function registerPolicies(GateContract $gate)
     {
         $gate->before(function ($user, $ability) {
-            if ($ability === "wiki-form") {
+            if ($ability === "wiki-write") {
                 return $user;
             }
         });
