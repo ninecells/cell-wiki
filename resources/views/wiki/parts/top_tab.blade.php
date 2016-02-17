@@ -7,9 +7,7 @@
         <a href="/wiki/{{ $page->slug or $page->title }}/edit" aria-controls="edit" role="tab" data-toggle="tab">편집</a>
     </li>
     @endcan
-    <!--
     <li role="presentation"{!! $type === 'history' ? ' class="active"' : '' !!}>
         <a href="/wiki/{{ $page->slug or $page->title }}/history" aria-controls="history" role="tab" data-toggle="tab">역사</a>
     </li>
-    -->
 </ul>

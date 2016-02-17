@@ -18,18 +18,8 @@ class WikiHistory extends Model
         return $parsedown->text($content);
     }
 
-    public function votes()
-    {
-        return $this->morphMany(WikiVote::class, 'votable');
-    }
-
     public function writer()
     {
         return $this->hasOne('App\User', 'id', 'writer_id');
-    }
-
-    public function viewCounts()
-    {
-        return $this->hasMany(WikiViewCount::class, 'wiki_page_id');
     }
 }

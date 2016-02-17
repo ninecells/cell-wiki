@@ -9,6 +9,7 @@ class CreateWikiTables extends Migration
     {
         Schema::create('wiki_pages', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('rev')->index();
             $table->string('title')->index();
             $table->string('slug')->index();
             $table->longText('content');
@@ -20,6 +21,7 @@ class CreateWikiTables extends Migration
         Schema::create('wiki_histories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('wiki_page_id')->index();
+            $table->integer('rev')->index();
             $table->string('title')->index();
             $table->string('slug')->index();
             $table->longText('content');
