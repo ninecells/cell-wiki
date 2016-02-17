@@ -1,0 +1,16 @@
+{
+  "name": "ninecells/cell-wiki",
+  "license": "MIT",
+  "require": {
+    "php": ">=5.5.9",
+    "ninecells/cell-auth": "*",
+    "ninecells/assets-twbs3-jbtrn-narrow": "*",
+    "erusev/parsedown": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "NineCells\\Wiki\\": ""
+    }
+  },
+  "minimum-stability": "dev"
+}
