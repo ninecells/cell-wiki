@@ -10,7 +10,12 @@
 @if( $page->slug )
     <p>{!! $page->md_content !!}</p>
 @else
-    <p>아직 존재하지 않는 문서입니다. "<a href="/wiki/{{ $page->title }}/edit">{{ $page->title }}</a>" 문서를 만들어주세요.</p>
+    <p>
+        아직 존재하지 않는 문서입니다.
+        @if(Auth::check())
+        "<a href="/wiki/{{ $page->title }}/edit">{{ $page->title }}</a>" 문서를 만들어주세요.
+        @endif
+    </p>
 @endif
 
 @endsection
