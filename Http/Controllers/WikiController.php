@@ -8,11 +8,11 @@ class WikiController extends Controller
 {
     public function GET_page($page_key = null)
     {
-        echo "1";
+        return view('ncells::wiki.pages.wiki_page');
     }
 
     public function GET_page_form($page_key = null)
     {
-        return view('ncells::wiki.pages.wiki_page');
+        return view('ncells::wiki.pages.wiki_page_form');
     }
 }

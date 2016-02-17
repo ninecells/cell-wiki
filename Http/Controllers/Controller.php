@@ -1,6 +1,6 @@
 <?php
 
-namespace NineCells\SimpleBoard\Http\Controllers;
+namespace NineCells\Wiki\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
