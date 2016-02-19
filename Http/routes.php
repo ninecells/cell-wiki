@@ -10,7 +10,7 @@ Route::group(['middleware' => ['web']], function () {
             Route::get('/{key}/edit', 'WikiController@GET_page_form');
             Route::get('/{key}/history', 'WikiController@GET_page_history');
             Route::get('/{key}/compare/{left}/{right}', 'WikiController@GET_page_compare');
-            Route::get('/{key?}/{rev}', 'WikiController@GET_rev_page');
+            Route::get('/{key}/{rev}', 'WikiController@GET_rev_page');
             Route::put('/update', 'WikiController@PUT_page_form');
         });
     });

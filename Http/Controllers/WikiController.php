@@ -12,27 +12,28 @@ class WikiController extends Controller
     public function GET_page($key = 'Main')
     {
         $page = $this->getPage($key);
-        if ($page->slug && $key != $page->slug) {
+        $slug = $page->slug;
+
+        if ($slug && $slug != $key) {
             // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 redirect 한다.
-            $slug = $page->slug;
             return redirect("/wiki/$slug", 301);
         }
+
         return view('ncells::wiki.pages.wiki_page', ['page' => $page]);
     }
 
     public function GET_rev_page($key, $rev)
     {
         $page = $this->getPage($key);
+        $slug = $page->slug;
 
-        if (!$page->slug) {
+        if (!$slug) {
             // 존재하지 않는 문서면 revision 을 보여줄 수 없으므로 생성 권유 페이지로 이동 시킨다.
             // 나중에 생성될 수 있는 문서이므로 일시적이동(302)
             return redirect("/wiki/$key", 302);
         }
 
-        $slug = $page->slug;
-
-        if ($page->slug && $key != $page->slug) {
+        if ($slug && $slug != $key) {
             // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 slug로 바꿔서 redirect 한다.
             // url 에 title 보다는 slug 를 권장하므로 영구적이동(301)
             return redirect("/wiki/$slug/$rev", 301);
@@ -53,7 +54,16 @@ class WikiController extends Controller
     public function GET_page_form($key)
     {
         $this->authorize('wiki-write');
+
         $page = $this->getPage($key);
+        $slug = $page->slug;
+
+        if ($slug && $slug != $key) {
+            // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 slug로 바꿔서 redirect 한다.
+            // url 에 title 보다는 slug 를 권장하므로 영구적이동(301)
+            return redirect("/wiki/$slug/edit", 301);
+        }
+
         return view('ncells::wiki.pages.wiki_page_form', ['page' => $page]);
     }
 
@@ -89,8 +99,16 @@ class WikiController extends Controller
     public function GET_page_history($key)
     {
         $page = $this->getPage($key);
-        if (!$page->exists) {
-            exit;
+        $slug = $page->slug;
+
+        if (!$slug) {
+            return redirect("/wiki/$key", 302);
+        }
+
+        if ($slug && $slug != $key) {
+            // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 slug로 바꿔서 redirect 한다.
+            // url 에 title 보다는 slug 를 권장하므로 영구적이동(301)
+            return redirect("/wiki/$slug/history", 301);
         }
 
         $histories = WikiHistory::where('wiki_page_id', $page->id)
@@ -105,12 +123,17 @@ class WikiController extends Controller
     public function GET_page_compare($key, $left, $right)
     {
         $page = $this->getPage($key);
-
         $slug = $page->slug;
 
         if (!$slug) {
             // 존재하지 않는 문서이므로 생성 권장
             return redirect("/wiki/$key", 302);
+        }
+
+        if ($slug && $slug != $key) {
+            // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 slug로 바꿔서 redirect 한다.
+            // url 에 title 보다는 slug 를 권장하므로 영구적이동(301)
+            return redirect("/wiki/$slug/compare/$left/$right", 301);
         }
 
         $l_page = WikiHistory::where('wiki_page_id', $page->id)->where('rev', $left)->first();
