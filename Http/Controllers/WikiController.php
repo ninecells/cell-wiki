@@ -201,7 +201,9 @@ class WikiController extends Controller
         $keys = implode(',', $keys);
 
         config(['title' => $page->title]);
-        config(['author' => $page->writer->name]);
+        if (isset($page->writer)) {
+            config(['author' => $page->writer->name]);
+        }
         config(['description' => $desc]);
         config(['keywords' => $keys]);
 
@@ -212,7 +214,7 @@ class WikiController extends Controller
     private function limit_words($words, $limit, $append = ' &hellip;')
     {
         // Add 1 to the specified limit becuase arrays start at 0
-        $limit = $limit+1;
+        $limit = $limit + 1;
         // Store each individual word as an array element
         // Up to the limit
         $words = explode(' ', $words, $limit);
