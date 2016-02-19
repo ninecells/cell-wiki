@@ -23,14 +23,30 @@ class WikiController extends Controller
     public function GET_rev_page($key, $rev)
     {
         $page = $this->getPage($key);
+
+        if (!$page->slug) {
+            // 존재하지 않는 문서면 revision 을 보여줄 수 없으므로 생성 권유 페이지로 이동 시킨다.
+            // 나중에 생성될 수 있는 문서이므로 일시적이동(302)
+            return redirect("/wiki/$key", 302);
+        }
+
+        $slug = $page->slug;
+
         if ($page->slug && $key != $page->slug) {
-            // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 redirect 한다.
-            $slug = $page->slug;
+            // 이미 존재하는 문서인데 slug가 아니라 title로 들어왔다면 slug로 바꿔서 redirect 한다.
+            // url 에 title 보다는 slug 를 권장하므로 영구적이동(301)
             return redirect("/wiki/$slug/$rev", 301);
         }
+
         $page = WikiHistory::where('wiki_page_id', $page->id)
             ->where('rev', $rev)
             ->first();
+
+        if (!$page) {
+            // 존재하지 않는 revision 인 경우 문서로 일시적이동(302)
+            return redirect("/wiki/$slug", 302);
+        }
+
         return view('ncells::wiki.pages.wiki_rev_page', ['page' => $page, 'rev' => $rev]);
     }
 
