@@ -19,7 +19,7 @@ class WikiController extends Controller
             return redirect("/wiki/$slug", 301);
         }
 
-        config(['title' => $page->title . ' - modernpug.org']);
+        $this->setMetaTas($page);
 
         return view('ncells::wiki.pages.wiki_page', ['page' => $page]);
     }
@@ -50,7 +50,7 @@ class WikiController extends Controller
             return redirect("/wiki/$slug", 302);
         }
 
-        config(['title' => $page->title . ' - modernpug.org']);
+        $this->setMetaTas($page);
 
         return view('ncells::wiki.pages.wiki_rev_page', ['page' => $page, 'rev' => $rev]);
     }
@@ -68,7 +68,7 @@ class WikiController extends Controller
             return redirect("/wiki/$slug/edit", 301);
         }
 
-        config(['title' => $page->title . ' - modernpug.org']);
+        $this->setMetaTas($page);
 
         return view('ncells::wiki.pages.wiki_page_form', ['page' => $page]);
     }
@@ -123,7 +123,7 @@ class WikiController extends Controller
             ->take(50)
             ->get();
 
-        config(['title' => $page->title . ' - modernpug.org']);
+        $this->setMetaTas($page);
 
         return view('ncells::wiki.pages.wiki_page_history', ['page' => $page, 'histories' => $histories]);
     }
@@ -152,7 +152,7 @@ class WikiController extends Controller
             return redirect("/wiki/$slug", 302);
         }
 
-        config(['title' => $page->title . ' - modernpug.org']);
+        $this->setMetaTas($page);
 
         include "filediff.php";
         $opcodes = \FineDiff::getDiffOpcodes($l_page->content, $r_page->content, \FineDiff::characterDelimiters);
@@ -185,5 +185,42 @@ class WikiController extends Controller
         $title = preg_replace('![^' . preg_quote($separator) . '\pL\pN\s]+!u', '', mb_strtolower($title));
         $title = preg_replace('![' . preg_quote($separator) . '\s]+!u', $separator, $title);
         return trim($title, $separator);
+    }
+
+    private function setMetaTas($page)
+    {
+        // 메타 지정
+        $desc = strip_tags($page->md_content);
+        $desc = str_replace("\r\n", "\n", $desc);
+        $desc = str_replace("\r", " ", $desc);
+        $desc = str_replace("\n", " ", $desc);
+        $desc = $this->limit_words($desc, 30);
+
+        $keys = $this->limit_words($page->title, 20);
+        $keys = explode(' ', $keys);
+        $keys = implode(',', $keys);
+
+        config(['title' => $page->title]);
+        config(['author' => $page->writer->name]);
+        config(['description' => $desc]);
+        config(['keywords' => $keys]);
+
+        config(['og:title' => $page->title]);
+        config(['og:description' => $desc]);
+    }
+
+    private function limit_words($words, $limit, $append = ' &hellip;')
+    {
+        // Add 1 to the specified limit becuase arrays start at 0
+        $limit = $limit+1;
+        // Store each individual word as an array element
+        // Up to the limit
+        $words = explode(' ', $words, $limit);
+        // Shorten the array by 1 because that final element will be the sum of all the words after the limit
+        array_pop($words);
+        // Implode the array for output, and append an ellipse
+        $words = implode(' ', $words) . $append;
+        // Return the result
+        return $words;
     }
 }
