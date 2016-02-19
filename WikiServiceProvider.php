@@ -6,6 +6,7 @@ use App;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Support\ServiceProvider;
 use NineCells\Auth\AuthServiceProvider;
+use Mews\Purifier\PurifierServiceProvider;
 
 class WikiServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,7 @@ class WikiServiceProvider extends ServiceProvider
     public function register()
     {
         App::register(AuthServiceProvider::class);
+        App::register(PurifierServiceProvider::class);
     }
 
 }

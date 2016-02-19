@@ -5,6 +5,7 @@
     "php": ">=5.5.9",
     "ninecells/cell-auth": "*",
     "ninecells/assets-twbs3-jbtrn-narrow": "*",
+    "mews/purifier": "~2.0",
     "erusev/parsedown": "^1.6"
   },
   "autoload": {

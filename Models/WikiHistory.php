@@ -15,7 +15,7 @@ class WikiHistory extends Model
     {
         $content = $this->attributes['content'];
         $parsedown = new MyParsedown();
-        return $parsedown->text($content);
+        return clean($parsedown->text($content));
     }
 
     public function writer()
