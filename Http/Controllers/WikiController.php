@@ -105,8 +105,21 @@ class WikiController extends Controller
     public function GET_page_compare($key, $left, $right)
     {
         $page = $this->getPage($key);
+
+        $slug = $page->slug;
+
+        if (!$slug) {
+            // 존재하지 않는 문서이므로 생성 권장
+            return redirect("/wiki/$key", 302);
+        }
+
         $l_page = WikiHistory::where('wiki_page_id', $page->id)->where('rev', $left)->first();
         $r_page = WikiHistory::where('wiki_page_id', $page->id)->where('rev', $right)->first();
+
+        if (!$l_page || !$r_page) {
+            // l 과 r 중 하나가 revision 이 없으므로 문서로 이동
+            return redirect("/wiki/$slug", 302);
+        }
 
         include "filediff.php";
         $opcodes = \FineDiff::getDiffOpcodes($l_page->content, $r_page->content, \FineDiff::characterDelimiters);
