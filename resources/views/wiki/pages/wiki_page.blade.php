@@ -1,5 +1,13 @@
 @extends('app')
 
+@section('head')
+<style>
+h1, h2, h3, h4 {
+    margin-top: 30px;
+}
+</style>
+@endsection
+
 @section('content')
 
 @include('ncells::wiki.parts.top_menu')
