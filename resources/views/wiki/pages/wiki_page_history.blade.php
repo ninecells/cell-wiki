@@ -5,7 +5,7 @@
 @include('ncells::wiki.parts.top_menu')
 @include('ncells::wiki.parts.top_tab', ['type' => 'history'])
 
-<h1>{{ $page->title }}</h1>
+<h1>역사: {{ $page->title }}</h1>
 <p>
     <a id="btn-compare" href="#" class="btn btn-success" data-page-slug="{{ $page->slug }}">비교하기</a>
 </p>

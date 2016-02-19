@@ -19,6 +19,8 @@ class WikiController extends Controller
             return redirect("/wiki/$slug", 301);
         }
 
+        config(['title' => $page->title . ' - modernpug.org']);
+
         return view('ncells::wiki.pages.wiki_page', ['page' => $page]);
     }
 
@@ -48,6 +50,8 @@ class WikiController extends Controller
             return redirect("/wiki/$slug", 302);
         }
 
+        config(['title' => $page->title . ' - modernpug.org']);
+
         return view('ncells::wiki.pages.wiki_rev_page', ['page' => $page, 'rev' => $rev]);
     }
 
@@ -63,6 +67,8 @@ class WikiController extends Controller
             // url 에 title 보다는 slug 를 권장하므로 영구적이동(301)
             return redirect("/wiki/$slug/edit", 301);
         }
+
+        config(['title' => $page->title . ' - modernpug.org']);
 
         return view('ncells::wiki.pages.wiki_page_form', ['page' => $page]);
     }
@@ -117,6 +123,8 @@ class WikiController extends Controller
             ->take(50)
             ->get();
 
+        config(['title' => $page->title . ' - modernpug.org']);
+
         return view('ncells::wiki.pages.wiki_page_history', ['page' => $page, 'histories' => $histories]);
     }
 
@@ -143,6 +151,8 @@ class WikiController extends Controller
             // l 과 r 중 하나가 revision 이 없으므로 문서로 이동
             return redirect("/wiki/$slug", 302);
         }
+
+        config(['title' => $page->title . ' - modernpug.org']);
 
         include "filediff.php";
         $opcodes = \FineDiff::getDiffOpcodes($l_page->content, $r_page->content, \FineDiff::characterDelimiters);
