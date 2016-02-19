@@ -33,7 +33,6 @@
     @endforeach
     </tbody>
 </table>
-{!! $histories->links() !!}
 @endsection
 
 

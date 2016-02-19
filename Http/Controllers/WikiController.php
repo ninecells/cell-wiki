@@ -80,7 +80,8 @@ class WikiController extends Controller
         $histories = WikiHistory::where('wiki_page_id', $page->id)
             ->with('writer')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->take(50)
+            ->get();
 
         return view('ncells::wiki.pages.wiki_page_history', ['page' => $page, 'histories' => $histories]);
     }
