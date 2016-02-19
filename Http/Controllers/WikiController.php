@@ -190,25 +190,26 @@ class WikiController extends Controller
     private function setMetaTas($page)
     {
         // 메타 지정
-        $desc = strip_tags($page->md_content);
-        $desc = str_replace("\r\n", "\n", $desc);
-        $desc = str_replace("\r", " ", $desc);
-        $desc = str_replace("\n", " ", $desc);
-        $desc = $this->limit_words($desc, 30);
-
-        $keys = $this->limit_words($page->title, 20);
-        $keys = explode(' ', $keys);
-        $keys = implode(',', $keys);
-
         config(['title' => $page->title]);
-        if (isset($page->writer)) {
-            config(['author' => $page->writer->name]);
-        }
-        config(['description' => $desc]);
-        config(['keywords' => $keys]);
-
         config(['og:title' => $page->title]);
-        config(['og:description' => $desc]);
+
+        // 문서가 만들어진 경우에만 입력할 수 있는 meta 생성
+        if ($page->slug) {
+            $desc = strip_tags($page->md_content);
+            $desc = str_replace("\r\n", "\n", $desc);
+            $desc = str_replace("\r", " ", $desc);
+            $desc = str_replace("\n", " ", $desc);
+            $desc = $this->limit_words($desc, 30);
+
+            $keys = $this->limit_words($page->title, 20);
+            $keys = explode(' ', $keys);
+            $keys = implode(',', $keys);
+
+            config(['author' => $page->writer->name]);
+            config(['description' => $desc]);
+            config(['keywords' => $keys]);
+            config(['og:description' => $desc]);
+        }
     }
 
     private function limit_words($words, $limit, $append = ' &hellip;')
