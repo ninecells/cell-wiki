@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Support\ServiceProvider;
 use NineCells\Auth\AuthServiceProvider;
 use Mews\Purifier\PurifierServiceProvider;
+use NineCells\Admin\PackageList;
 
 class WikiServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,7 @@ class WikiServiceProvider extends ServiceProvider
 //        }
     }
 
-    public function boot(GateContract $gate)
+    public function boot(GateContract $gate, PackageList $packages)
     {
         $this->registerPolicies($gate);
 
@@ -36,6 +37,10 @@ class WikiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/database/migrations/' => database_path('migrations')
         ], 'migrations');
+
+        $packages->addPackageInfo('wiki', 'Wiki', function() {
+            return 'WikiServiceProvider.php를 수정하세요';
+        });
     }
 
     public function register()
