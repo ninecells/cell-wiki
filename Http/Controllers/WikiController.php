@@ -157,6 +157,9 @@ class WikiController extends Controller
         include "filediff.php";
         $opcodes = \FineDiff::getDiffOpcodes($l_page->content, $r_page->content, \FineDiff::characterDelimiters);
         $rendered_diff = \FineDiff::renderDiffToHTMLFromOpcodes($l_page->content, $opcodes);
+        $rendered_diff = str_replace('\r\n', '\n', $rendered_diff);
+        $rendered_diff = str_replace('\r', '\n', $rendered_diff);
+        $rendered_diff = str_replace('\n', '(ENTER)<br/>', $rendered_diff);
         return view('ncells::wiki.pages.wiki_compare', ['page' => $page, 'rendered_diff' => $rendered_diff]);
     }
 
