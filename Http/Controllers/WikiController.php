@@ -154,8 +154,7 @@ class WikiController extends Controller
 
         $this->setMetaTas($page);
 
-        include "filediff.php";
-
+        include "finediff.php";
         $l_text = mb_convert_encoding($l_page->content, 'HTML-ENTITIES', 'UTF-8');
         $r_text = mb_convert_encoding($r_page->content, 'HTML-ENTITIES', 'UTF-8');
         $opcodes = \FineDiff::getDiffOpcodes($l_text, $r_text, \FineDiff::wordDelimiters);
@@ -164,6 +163,7 @@ class WikiController extends Controller
         $rendered_diff = str_replace('\r\n', '\n', $rendered_diff);
         $rendered_diff = str_replace('\r', '\n', $rendered_diff);
         $rendered_diff = str_replace('\n', '&nbsp;<br/>', $rendered_diff);
+
         return view('ncells::wiki.pages.wiki_compare', ['page' => $page, 'rendered_diff' => $rendered_diff]);
     }
 
