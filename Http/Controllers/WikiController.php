@@ -165,9 +165,9 @@ class WikiController extends Controller
         ]);
         $rendered_diff = \FineDiff::renderDiffToHTMLFromOpcodes($l_text, $opcodes);
         $rendered_diff = mb_convert_encoding($rendered_diff, 'UTF-8', 'HTML-ENTITIES');
-        $rendered_diff = str_replace('\r\n', '\n', $rendered_diff);
-        $rendered_diff = str_replace('\r', '\n', $rendered_diff);
-        $rendered_diff = str_replace('\n', '&nbsp;<br/>', $rendered_diff);
+//        $rendered_diff = str_replace('\r\n', '\n', $rendered_diff);
+//        $rendered_diff = str_replace('\r', '\n', $rendered_diff);
+//        $rendered_diff = str_replace('\n', '&nbsp;<br/>', $rendered_diff);
 
         return view('ncells::wiki.pages.wiki_compare', ['page' => $page, 'rendered_diff' => $rendered_diff]);
     }
