@@ -157,7 +157,12 @@ class WikiController extends Controller
         include "finediff.php";
         $l_text = mb_convert_encoding($l_page->content, 'HTML-ENTITIES', 'UTF-8');
         $r_text = mb_convert_encoding($r_page->content, 'HTML-ENTITIES', 'UTF-8');
-        $opcodes = \FineDiff::getDiffOpcodes($l_text, $r_text, \FineDiff::wordDelimiters);
+        $opcodes = \FineDiff::getDiffOpcodes($l_text, $r_text, [
+            \FineDiff::paragraphDelimiters,
+            \FineDiff::sentenceDelimiters,
+            \FineDiff::wordDelimiters,
+            ';',
+        ]);
         $rendered_diff = \FineDiff::renderDiffToHTMLFromOpcodes($l_text, $opcodes);
         $rendered_diff = mb_convert_encoding($rendered_diff, 'UTF-8', 'HTML-ENTITIES');
         $rendered_diff = str_replace('\r\n', '\n', $rendered_diff);
