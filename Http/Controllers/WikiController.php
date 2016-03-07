@@ -155,8 +155,12 @@ class WikiController extends Controller
         $this->setMetaTas($page);
 
         include "filediff.php";
-        $opcodes = \FineDiff::getDiffOpcodes($l_page->content, $r_page->content, \FineDiff::characterDelimiters);
-        $rendered_diff = \FineDiff::renderDiffToHTMLFromOpcodes($l_page->content, $opcodes);
+
+        $l_text = mb_convert_encoding($l_page->content, 'HTML-ENTITIES', 'UTF-8');
+        $r_text = mb_convert_encoding($r_page->content, 'HTML-ENTITIES', 'UTF-8');
+        $opcodes = \FineDiff::getDiffOpcodes($l_text, $r_text, \FineDiff::wordDelimiters);
+        $rendered_diff = \FineDiff::renderDiffToHTMLFromOpcodes($l_text, $opcodes);
+        $rendered_diff = mb_convert_encoding($rendered_diff, 'UTF-8', 'HTML-ENTITIES');
         $rendered_diff = str_replace('\r\n', '\n', $rendered_diff);
         $rendered_diff = str_replace('\r', '\n', $rendered_diff);
         $rendered_diff = str_replace('\n', '&nbsp;<br/>', $rendered_diff);
