@@ -5,7 +5,7 @@ namespace NineCells\Wiki;
 use App;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Support\ServiceProvider;
-use NineCells\Auth\AuthServiceProvider;
+use NineCells\Auth\MemberServiceProvider;
 use Mews\Purifier\PurifierServiceProvider;
 use NineCells\Admin\PackageList;
 
@@ -45,7 +45,7 @@ class WikiServiceProvider extends ServiceProvider
 
     public function register()
     {
-        App::register(AuthServiceProvider::class);
+        App::register(MemberServiceProvider::class);
         App::register(PurifierServiceProvider::class);
     }
 
