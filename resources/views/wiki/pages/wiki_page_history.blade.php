@@ -37,6 +37,7 @@
 
 
 @section('script')
+@parent
 <script>
     $(function () {
         $('#btn-compare').click(function (e) {
