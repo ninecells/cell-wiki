@@ -1,4 +1,4 @@
-@extends('ncells::jumbotron.app')
+@extends('ncells::app')
 
 @section('content')
 @include('ncells::wiki.parts.top_menu')

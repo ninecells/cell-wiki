@@ -1,4 +1,4 @@
-@extends('ncells::jumbotron.app')
+@extends('ncells::app')
 
 @section('head')
 <style>
